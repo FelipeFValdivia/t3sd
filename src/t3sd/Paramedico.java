@@ -11,12 +11,18 @@ package t3sd;
  */
 public class Paramedico {
     int id;
-    String name;
-    String rut;
-    int age;
+    String nombre;
+    String apellido;
+    int estudios;
+    int experiencia;
     
-    public int edit_exam(){
-        return 1;
+    
+    public Paramedico(int id, String nombre, String apellido, int experiencia, int estudios){
+        id = id;
+        nombre = nombre;
+        apellido = apellido;
+        experiencia = experiencia;
+        estudios = estudios;
         
     }
             
