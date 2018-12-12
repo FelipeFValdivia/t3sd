@@ -24,4 +24,10 @@ public class Doctor {
         experiencia = experiencia;
     }
     
+    public void lecturaPaciente(){
+    }
+    
+    public void coordinarAccesos(){
+    }
+    
 }
