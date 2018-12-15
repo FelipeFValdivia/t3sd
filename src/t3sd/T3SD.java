@@ -16,6 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.json.simple.JSONArray;
  
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
@@ -37,15 +38,20 @@ public class T3SD {
         System.out.println("current dir = " + dir);
         JSONParser parser = new JSONParser();
         Object obj;
+        JSONObject single_json;
+        String apellido;
         try { 
             obj = parser.parse(new FileReader(
                     "personal.json"));
             JSONObject personal = (JSONObject) obj;
             JSONArray doctor = (JSONArray) personal.get("Doctor");
-            for (int i = 0; i < doctor.size(); i++)
+            for (int i = 0; i < doctor.size(); i++){
                 System.out.println(doctor.get(i));
-
-            
+                single_json = (JSONObject) doctor.get(i);
+                apellido = (String)single_json.get("apellido");
+                System.out.println(apellido);
+            }
+           
         } catch (IOException | ParseException ex) {
             Logger.getLogger(T3SD.class.getName()).log(Level.SEVERE, null, ex);
         }
