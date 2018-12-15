@@ -10,8 +10,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.json.simple.JSONArray;
  
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -37,8 +40,12 @@ public class T3SD {
         try { 
             obj = parser.parse(new FileReader(
                     "personal.json"));
-        JSONObject personal = (JSONObject) obj;
-        System.out.println(personal);            
+            JSONObject personal = (JSONObject) obj;
+            JSONArray doctor = (JSONArray) personal.get("Doctor");
+            for (int i = 0; i < doctor.size(); i++)
+                System.out.println(doctor.get(i));
+
+            
         } catch (IOException | ParseException ex) {
             Logger.getLogger(T3SD.class.getName()).log(Level.SEVERE, null, ex);
         }

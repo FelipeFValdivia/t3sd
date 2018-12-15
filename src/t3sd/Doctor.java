@@ -23,6 +23,10 @@ public class Doctor {
         estudios = estudios;
         experiencia = experiencia;
     }
+
+    Doctor() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
     
     public void lecturaPaciente(){
     }
