@@ -10,13 +10,13 @@ package t3sd;
  * @author usuario
  */
 public class Doctor {
-    private int id;
+    private Long id;
     private String nombre;
     private String apellido;
-    private int estudios;
-    private int experiencia;
+    private Long estudios;
+    private Long experiencia;
     
-    public Doctor(int id, String nombre, String apellido, int estudios, int experiencia){
+    public Doctor(Long id, String nombre, String apellido, Long estudios, Long experiencia){
         id = id;
         nombre = nombre;
         apellido = apellido;

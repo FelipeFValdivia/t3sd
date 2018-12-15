@@ -39,18 +39,30 @@ public class T3SD {
         JSONParser parser = new JSONParser();
         Object obj;
         JSONObject single_json;
-        String apellido;
+        String apellido, nombre;
+        Long id, estudios, experiencia;
         try { 
             obj = parser.parse(new FileReader(
                     "personal.json"));
             JSONObject personal = (JSONObject) obj;
+            
+            List myList = new ArrayList();
+
             JSONArray doctor = (JSONArray) personal.get("Doctor");
             for (int i = 0; i < doctor.size(); i++){
                 System.out.println(doctor.get(i));
                 single_json = (JSONObject) doctor.get(i);
                 apellido = (String)single_json.get("apellido");
+                nombre = (String)single_json.get("nombre");
+                id = (Long)single_json.get("id");
+                estudios = (Long)single_json.get("estudios");
+                experiencia = (Long)single_json.get("experiencia");
                 System.out.println(apellido);
+                Doctor doc = new Doctor(id, nombre, apellido, estudios, experiencia);
+                myList.add(doc);
             }
+            
+            System.out.println(myList.get(0));
            
         } catch (IOException | ParseException ex) {
             Logger.getLogger(T3SD.class.getName()).log(Level.SEVERE, null, ex);
