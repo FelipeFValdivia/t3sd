@@ -10,14 +10,14 @@ package t3sd;
  * @author felipefvaldivia
  */
 public class Paramedico {
-    private int id;
+    private Long id;
     private String nombre;
     private String apellido;
-    private int estudios;
-    private int experiencia;
+    private Long estudios;
+    private Long experiencia;
     
     
-    public Paramedico(int id, String nombre, String apellido, int experiencia, int estudios){
+    public Paramedico(Long id, String nombre, String apellido, Long experiencia, Long estudios){
         id = id;
         nombre = nombre;
         apellido = apellido;
@@ -25,5 +25,6 @@ public class Paramedico {
         estudios = estudios;
         
     }
+
             
 }

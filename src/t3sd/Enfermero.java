@@ -11,13 +11,13 @@ package t3sd;
  */
 public class Enfermero {
     
-    private int id;
+    private Long id;
     private String nombre;
     private String apellido;
-    private int experiencia;
-    private int estudios;
+    private Long experiencia;
+    private Long estudios;
     
-    public Enfermero(int id, String nombre, String apellido, int experiencia, int estudios){
+    public Enfermero(Long id, String nombre, String apellido, Long experiencia, Long estudios){
         id = id;
         nombre = nombre;
         apellido = apellido;
@@ -25,4 +25,5 @@ public class Enfermero {
         estudios = estudios;
         
     }
+
 }
