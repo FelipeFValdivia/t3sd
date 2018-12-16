@@ -25,6 +25,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
+import java.util.Scanner;
 
 
 /**
@@ -44,6 +45,25 @@ public class T3SD {
     }
     public static void main(String[] args) throws FileNotFoundException {
         // TODO code application logic here
+        
+        String address1, address2, address3, myAddress;
+        myAddress = "dist73.inf.santiago.usm.cl";
+        address1 = "dist74.inf.santiago.usm.cl";
+        address2 = "dist75.inf.santiago.usm.cl";
+        address3 = "dist76.inf.santiago.usm.cl";
+
+        System.out.println("Ingresa tu direccion:");        
+        Scanner sc = new Scanner(System.in);
+        myAddress = sc.nextLine(); 
+
+        System.out.println("Ingresa las otras tres direcciones:");
+        
+        address1 = sc.nextLine(); 
+        address2 = sc.nextLine(); 
+        address3 = sc.nextLine(); 
+
+    	Scanner rawInput = new Scanner(System.in);
+    	System.out.print("Presiona enter para comenzar");
         final String dir = System.getProperty("user.dir");
         System.out.println("current dir = " + dir);
         JSONParser parser = new JSONParser();
@@ -103,28 +123,34 @@ public class T3SD {
                 Paramedico par = new Paramedico(id, nombre, apellido, estudios, experiencia);
                 myDoctorList.add(par);
             }
-            
-            
+   
+                        
         ServerSocket listener = new ServerSocket(9090);
+        //Se busca al primer coordinador
         try {
-            while (true) {
-                Socket socket = listener.accept();
-                try {
-                    PrintWriter out =
-                        new PrintWriter(socket.getOutputStream(), true);
-                    out.println(1L);
-                    BufferedReader input =
-                        new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                    System.out.println(input.readLine());
-                } finally {
-                    socket.close();
-                }
+            Socket socket = listener.accept();
+            
+            try {
+                Socket s1 = new Socket(address1, 9090);
+
+                Thread t = new ServerHandler(socket, myAddress); 
+                Thread t1 = new ClientHandler(s1, myAddress, address1);
+                t.start();
+                t1.start();
+            } finally {
+                socket.close();
             }
+         
+            
+           
+            
         }
         finally {
             listener.close();
         }
-            
+        
+
+
         } catch (IOException | ParseException ex) {
             Logger.getLogger(T3SD.class.getName()).log(Level.SEVERE, null, ex);
         }
