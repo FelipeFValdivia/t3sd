@@ -185,6 +185,7 @@ public class T3SD {
             while(bully.get_address_best_sum(address1) == null ){
                 InetAddress InetAdd = InetAddress.getByName(address1);           
                 try{
+                    System.out.println("Extrayendo información desde " + address1);
                     Socket s1 = new Socket(InetAdd, 9090);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
@@ -207,12 +208,12 @@ public class T3SD {
             while(bully.get_address_best_sum(address2) == null ){
                 InetAddress InetAdd = InetAddress.getByName(address2);           
                 try{
+                    System.out.println("Extrayendo información desde " + address2);
                     Socket s2 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s2.getInputStream()));
                     String answer = input.readLine();
-                    System.out.println(answer);
                     sum2 = Long.parseLong(answer, 10);
                     System.out.println(sum2);
                     bully.set_address_best_sum(address2, sum2);                    
@@ -229,8 +230,11 @@ public class T3SD {
 
             //Se pregunta al servidor 3 cual es su mejor doctor
             while(bully.get_address_best_sum(address3) == null ){
+                
+                
                 InetAddress InetAdd = InetAddress.getByName(address3);           
                 try{
+                    System.out.println("Extrayendo información desde " + address3);
                     Socket s3 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
@@ -260,7 +264,7 @@ public class T3SD {
             }else{
                 bully.set_leader(address3, sum3);                    
             }
-
+            System.out.println("el coordinador es " + bully.get_leader_address());
             obj = parser.parse(new FileReader(
                     "requerimientos.json"));
             JSONObject req = (JSONObject) obj;
