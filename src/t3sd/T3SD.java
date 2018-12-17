@@ -194,7 +194,8 @@ public class T3SD {
                     System.out.println(sum1);
 
                     bully.set_address_best_sum(address1, sum1);
-                    System.out.println(bully.get_address_best_sum(address1));                    
+                    System.out.println(bully.get_address_best_sum(address1));
+                    s1.close();
                 }catch (NoRouteToHostException e) 
                 {
                 }catch (ConnectException e){
@@ -214,7 +215,8 @@ public class T3SD {
                     String answer = input.readLine();
                     sum2 = Long.parseLong(answer, 10);
                     System.out.println(sum2);
-                    bully.set_address_best_sum(address2, sum2);                    
+                    bully.set_address_best_sum(address2, sum2);    
+                    s2.close();
                 }catch (NoRouteToHostException e) 
                 {
                 }catch (ConnectException e){
@@ -239,6 +241,7 @@ public class T3SD {
                     sum3 = Long.parseLong(answer, 10);
                     System.out.println(sum3);
                     bully.set_address_best_sum(address3, sum3);
+                    s3.close();
                 }
                 catch (NoRouteToHostException e) 
                 {
