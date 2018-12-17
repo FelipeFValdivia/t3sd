@@ -197,9 +197,7 @@ public class T3SD {
                     System.out.println(bully.get_address_best_sum(address1));                    
                 }catch (NoRouteToHostException e) 
                 {
-                    System.err.println("Problem at ip: " + address1);
                 }catch (ConnectException e){
-                    System.err.println("Problem at ip: " + e);
                 }
 
                 
@@ -219,9 +217,7 @@ public class T3SD {
                     bully.set_address_best_sum(address2, sum2);                    
                 }catch (NoRouteToHostException e) 
                 {
-                    System.err.println("Problem at ip: " + address1);
                 }catch (ConnectException e){
-                    System.err.println("Problem at ip: " + e);
                 }
 
 
@@ -246,9 +242,7 @@ public class T3SD {
                 }
                 catch (NoRouteToHostException e) 
                 {
-                    System.err.println("Problem at ip: " + address3);
                 } catch (ConnectException e){
-                    System.err.println("Problem at ip: " + e);
                 }
 
 
