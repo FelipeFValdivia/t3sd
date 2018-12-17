@@ -1,0 +1,71 @@
+{
+
+  "Doctor": 
+
+    [{"id": 1,
+
+      "nombre": "Sebastian", 
+
+      "apellido": "Angulo", 
+
+      "estudios": 12 , 
+
+      "experiencia": 2
+
+    }, 
+
+    {"id": 2,
+
+    "nombre": "Juanito", 
+
+    "apellido": "Perez", 
+
+    "estudios": 9, 
+
+    "experiencia": 2
+
+    },
+
+    {"id": 3,
+
+    "nombre": "Diego", 
+
+    "apellido": "Rodriguez", 
+
+    "estudios": 10, 
+
+    "experiencia": 12
+
+    }],
+
+  "enfermero": 
+
+    [{"id": 1,
+
+    "nombre": "Alejandra", 
+
+    "apellido": "Chumacero", 
+
+    "estudios": 8, 
+
+    "experiencia": 6
+
+    }],
+
+  "Paramedico": 
+
+  [{"id": 1,
+
+    "nombre": "CRistian", 
+
+    "apellido": "Orellana", 
+
+    "estudios": 8 , 
+
+    "experiencia": 7
+
+    }
+
+  ]
+
+}
