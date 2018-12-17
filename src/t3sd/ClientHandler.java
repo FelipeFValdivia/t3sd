@@ -23,37 +23,25 @@ public class ClientHandler extends Thread
     Socket s; 
     String myAddress;
     String address;
-      
+    Bully bully;
+    String address4 = "dist73.inf.santiago.usm.cl";
+    String address1 = "dist74.inf.santiago.usm.cl";
+    String address2 = "dist75.inf.santiago.usm.cl";
+    String address3 = "dist76.inf.santiago.usm.cl";       
   
-    // Constructor 
 
-    ClientHandler(Socket s1, String myAddress, String address1) {
+    ClientHandler(Socket s1, String myAddress, String address, Bully bully) {
         this.s = s1;
         this.myAddress = myAddress;
-        //this.address = address1;
-        this.address = "localhost";
-        
+        this.address = address;
+        this.bully = bully;
     }
 
 
   
     public void run()   { 
         
-        System.out.println("estamos dentro");
-        while(true){
-            try {
-                s = new Socket(address, 9090);
-                PrintWriter out =
-                    new PrintWriter(s.getOutputStream(), true);
-                out.println(myAddress);
-                BufferedReader input =
-                    new BufferedReader(new InputStreamReader(s.getInputStream()));
-                String answer = input.readLine();
 
-            } catch (IOException ex) {
-                Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
       
 
     } 

@@ -20,30 +20,35 @@ import java.util.logging.Logger;
 public class ServerHandler extends Thread  {
     Socket socket;
     String myAddress;
-  
+    Long best_sum;
+    Bully bully;
+   
     // Constructor 
-    public ServerHandler(Socket s, String myAddress)  
+    public ServerHandler(Socket s, String myAddress, Long best_sum, Bully bully)  
     { 
+        
         this.socket = s; 
-        this.myAddress = myAddress; 
+        this.myAddress = myAddress;
+        this.best_sum = best_sum;
+        this.bully = bully;
     } 
 
 
   
     @Override
     public void run() { 
-        
+        Map <String, Long> my_best = null;
+        Long put = my_best.put(myAddress, best_sum);
         System.out.println("estamos dentro");
         System.out.println(myAddress);
+        String sumString = best_sum.toString();
         while(true){
             PrintWriter out;
             try {
                 out = new PrintWriter(socket.getOutputStream(), true);
 
-                out.println(1L);
-                BufferedReader input =
-                    new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                System.out.println(input.readLine());
+                out.println(sumString);
+
                 
             } catch (IOException ex) {
                 Logger.getLogger(ServerHandler.class.getName()).log(Level.SEVERE, null, ex);
