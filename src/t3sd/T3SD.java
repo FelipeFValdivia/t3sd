@@ -206,7 +206,7 @@ public class T3SD {
             
             ServerSocket listener2 = new ServerSocket(9091, 10, myInetAdd);
             Thread t2 = new ServerHandler(listener2, myAddress, best_sum, bully); 
-            t1.start();
+            t2.start();
             
             ServerSocket listener3 = new ServerSocket(9092, 10, myInetAdd);
             Thread t3 = new ServerHandler(listener1, myAddress, best_sum, bully); 
