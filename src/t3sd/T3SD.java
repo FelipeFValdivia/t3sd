@@ -75,9 +75,9 @@ public class T3SD {
                 address2 = ip3;
                 address3 = ip4;
                 myPort = 9090;
-                port1 = 9091;
-                port2 = 9092;
-                port3 = 9093;
+                port1 = 9090;
+                port2 = 9091;
+                port3 = 9092;
                 
                 nombreArchivoPersonal = "personal.json";
                 break;
@@ -87,9 +87,9 @@ public class T3SD {
                 address2 = ip3;
                 address3 = ip4;
                 myPort = 9091;
-                port1 = 9090;
+                port1 = 9091;
                 port2 = 9092;
-                port3 = 9093;
+                port3 = 9090;
                 nombreArchivoPersonal = "personal2.json";
                 break;
             case "75":
@@ -99,8 +99,8 @@ public class T3SD {
                 address3 = ip4;    
                 myPort = 9092;
                 port1 = 9090;
-                port2 = 9091;
-                port3 = 9093;                
+                port2 = 9092;
+                port3 = 9091;                
                 nombreArchivoPersonal = "personal3.json";
                 break;
             case "76":
@@ -109,9 +109,9 @@ public class T3SD {
                 address2 = ip2;
                 address3 = ip3;  
                 myPort = 9093;
-                port1 = 9090;
+                port1 = 9092;
                 port2 = 9091;
-                port3 = 9092;                
+                port3 = 9090;                
                 nombreArchivoPersonal = "personal4.json";
                 break;
             default:
@@ -191,7 +191,6 @@ public class T3SD {
             }
    
             InetAddress myInetAdd = InetAddress.getByName(myAddress);           
-            ServerSocket listener = new ServerSocket(myPort, 10, myInetAdd);
             Bully bully = new Bully(best_sum, -1L, "", myAddress, address1, address2, address3);
             //Se busca al primer coordinador
             Long sum1 = 0L;
@@ -200,10 +199,20 @@ public class T3SD {
             
 
             //Se crea una thread para poder escuchar los mensajes de los otros servidores, y poder determinar quien es el coordinador
-            Thread t = new ServerHandler(listener, myAddress, best_sum, bully); 
-            t.start();
+            ServerSocket listener1 = new ServerSocket(9090, 10, myInetAdd);
+            Thread t1 = new ServerHandler(listener1, myAddress, best_sum, bully); 
+            t1.start();
             
-            //Se pregunta al servidor 1 cual es su mejor doctor
+            
+            ServerSocket listener2 = new ServerSocket(9091, 10, myInetAdd);
+            Thread t2 = new ServerHandler(listener2, myAddress, best_sum, bully); 
+            t1.start();
+            
+            ServerSocket listener3 = new ServerSocket(9092, 10, myInetAdd);
+            Thread t3 = new ServerHandler(listener1, myAddress, best_sum, bully); 
+            t3.start();
+                        
+            //Se pregunt  a al servidor 1 cual es su mejor doctor
             while(bully.get_address_best_sum(address1) == null ){
                 InetAddress InetAdd = InetAddress.getByName(address1);           
                 try{
@@ -211,6 +220,8 @@ public class T3SD {
                     Socket s1 = new Socket(InetAdd, port1);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
+                    
+
                     String answer = input.readLine();
                     sum1 = Long.parseLong(answer, 10);
                     System.out.println(sum1);
