@@ -38,10 +38,10 @@ public class ServerHandler extends Thread  {
         Socket socket;        
         try {
             socket = listener.accept();
-            System.out.println(myAddress);
             String sumString; 
             sumString = best_sum.toString();
             while(true){
+                System.out.println("Estoy vivo");
                 PrintWriter out;
                 try {
                     out = new PrintWriter(socket.getOutputStream(), true);
