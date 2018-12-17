@@ -182,9 +182,8 @@ public class T3SD {
             //Se pregunta al servidor 1 cual es su mejor doctor
             while(bully.get_address_best_sum(address1) == null ){
                 
-                InetAddress inetAdd = InetAddress.getByName(address1);
                 try{
-                    Socket s1 = new Socket(inetAdd, 9090);
+                    Socket s1 = new Socket(address1, 9090);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
                     String answer = input.readLine();
@@ -204,9 +203,8 @@ public class T3SD {
             //Se pregunta al servidor 2 cual es su mejor doctor
             while(bully.get_address_best_sum(address2) == null ){
                 
-                InetAddress inetAdd = InetAddress.getByName(address2);
                 try{
-                    Socket s2 = new Socket(inetAdd, 9090);
+                    Socket s2 = new Socket(address2, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s2.getInputStream()));
@@ -226,9 +224,8 @@ public class T3SD {
 
             //Se pregunta al servidor 3 cual es su mejor doctor
             while(bully.get_address_best_sum(address3) == null ){
-                InetAddress inetAdd = InetAddress.getByName(address2);
                 try{
-                    Socket s3 = new Socket(inetAdd, 9090);
+                    Socket s3 = new Socket(address3, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s3.getInputStream()));
