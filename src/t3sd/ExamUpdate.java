@@ -16,7 +16,7 @@ import java.util.logging.Logger;
  * @author felipefvaldivia
  */
 public class ExamUpdate extends Thread {
-    
+    Socket socket;
     public ExamUpdate(Socket s)  
     { 
         this.socket = s; 

@@ -5,6 +5,7 @@
  */
 package t3sd;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -13,10 +14,10 @@ import java.util.Map;
  */
 public class Bully {
     private Long id;
-    private Long leaderId;
+    private final Long leaderId;
     private String LeaderAddress;
     
-    private Map<String, Long> address_best_sums;
+    private final Map<String, Long> address_best_sums = new HashMap<>();
 
     Bully(Long id, Long leaderId, String LeaderAddress, String myAddress, String address1, String address2, String address3) {
         this.id = id;

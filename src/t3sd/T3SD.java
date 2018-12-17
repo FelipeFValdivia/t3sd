@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 import java.util.Map;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -36,6 +37,7 @@ public class T3SD {
      * @throws java.io.FileNotFoundException
      */
 
+    @SuppressWarnings("empty-statement")
     public static void main(String[] args) throws FileNotFoundException {
         // TODO code application logic here
         
@@ -72,9 +74,10 @@ public class T3SD {
             List myDoctorList = new ArrayList();
             List myEnfermeroList = new ArrayList();
             List myParamedicoList = new ArrayList();
-            Map <Long, Doctor> docMap = null;
-            Map <Long, Enfermero> enfMap = null;
-            Map <Long, Paramedico> parMap = null;
+            Map<Long, Doctor> docMap = new HashMap<>();
+            
+            Map<Long, Enfermero> enfMap = new HashMap<>();
+            Map <Long, Paramedico> parMap = new HashMap<>();
             
             JSONArray doctor = (JSONArray) personal.get("Doctor");
             Doctor best_doc;
@@ -131,122 +134,117 @@ public class T3SD {
             Long sum1 = 0L;
             Long sum2 = 0L;
             Long sum3 = 0L;
-            try {
-                Socket socket = listener.accept();
-
-
-                Thread t = new ServerHandler(socket, myAddress, best_sum, bully); 
-                t.start();
-
-                while(bully.get_address_best_sum(address1) == null ){
-                    try {
-                        Socket s1 = new Socket(address1, 9090);
-
-                        BufferedReader input =
-                            new BufferedReader(new InputStreamReader(s1.getInputStream()));
-                        String answer = input.readLine();
-                        sum1 = Long.parseLong(answer, 10);
-                        System.out.println(sum1);
-                        bully.set_address_best_sum(address1, sum1);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }                
-
-
-                while(bully.get_address_best_sum(address2) == null ){
-                    try {
-                        Socket s2 = new Socket(address2, 9090);
-
-                        BufferedReader input =
-                            new BufferedReader(new InputStreamReader(s2.getInputStream()));
-                        String answer = input.readLine();
-                        sum2 = Long.parseLong(answer, 10);
-                        System.out.println(sum2);
-                        bully.set_address_best_sum(address2, sum2);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                } 
-                
-                
-                while(bully.get_address_best_sum(address3) == null ){
-                    try {
-                        Socket s3 = new Socket(address3, 9090);
-
-                        BufferedReader input =
-                            new BufferedReader(new InputStreamReader(s3.getInputStream()));
-                        String answer = input.readLine();
-                        sum3 = Long.parseLong(answer, 10);
-                        System.out.println(sum3);
-                        bully.set_address_best_sum(address3, sum3);
-                    } catch (IOException ex) {
-                        Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                }                 
-                
-                
-                if(best_sum >= sum1 && best_sum >= sum2 && best_sum >= sum3){
-                    bully.set_leader(myAddress, best_sum);
-                }else if(sum1 >= best_sum && sum1 >= sum2 && sum1 >= sum3){
-                    bully.set_leader(address1, sum1);
-                }else if(sum2 >= best_sum && sum2 > sum1 && sum2 >= sum3){
-                    bully.set_leader(address2, sum2);
-                }else{
-                    bully.set_leader(address3, sum3);                    
-                }
-                
-                
-                
-                obj = parser.parse(new FileReader(
-                        "requerimientos.json"));
-                JSONObject req = (JSONObject) obj;
-                
-                JSONArray requerimientos;
-                requerimientos = (JSONArray) personal.get("requerimientos");
-                String charge;
-                Long charge_id;
-
-                
-                if(bully.get_leader_address() == null ? myAddress == null : bully.get_leader_address().equals(myAddress)){
-                    ServerSocket coordinador = new ServerSocket(9091);
-                    Socket socketCoordinador = coordinador.accept();
-
-                    Thread coordinadorThread = new CoordinadorHandler(socketCoordinador, address1, address2, address3); 
-                    coordinadorThread.start();
-                }else{
-                    ServerSocket maquina = new ServerSocket(9092);
-                    Socket socketMaquina = maquina.accept();                    
-                    Thread maquinaThread = new MaquinaHandler(socketMaquina); 
-                }
-                
-                for (int i = 0; i < requerimientos.size(); i++){
-                    single_json = (JSONObject) requerimientos.get(i);
-                    charge = (String)single_json.get("cargo");
-                    charge_id = (Long)single_json.get("id");
-                    if(null == charge){
-                        System.out.println("Existio un error al leer el cargo.");
-                    }else switch (charge) {
-                        case "doctor":
-                            Doctor current_doc;
-                            current_doc = docMap.get(charge_id);
-                        case "enfermero":
-                            Enfermero current_enf;
-                            current_enf = enfMap.get(charge_id);
-                        case "paramedico":
-                            Paramedico current_par;
-                            current_par = parMap.get(charge_id);
-                        default:
-                            System.out.println("Existio un error al leer el cargo.");
-                    }
-                }                
-                
-                
-            }
-            finally {
-                listener.close();
-            }
             
+
+
+            Thread t = new ServerHandler(listener, myAddress, best_sum, bully); 
+            t.start();
+
+            while(bully.get_address_best_sum(address1) == null ){
+                try {
+                    Socket s1 = new Socket(address1, 9090);
+
+                    BufferedReader input =
+                        new BufferedReader(new InputStreamReader(s1.getInputStream()));
+                    String answer = input.readLine();
+                    sum1 = Long.parseLong(answer, 10);
+                    System.out.println(sum1);
+                    bully.set_address_best_sum(address1, sum1);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }                
+
+
+            while(bully.get_address_best_sum(address2) == null ){
+                try {
+                    Socket s2 = new Socket(address2, 9090);
+
+                    BufferedReader input =
+                        new BufferedReader(new InputStreamReader(s2.getInputStream()));
+                    String answer = input.readLine();
+                    sum2 = Long.parseLong(answer, 10);
+                    System.out.println(sum2);
+                    bully.set_address_best_sum(address2, sum2);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } 
+
+
+            while(bully.get_address_best_sum(address3) == null ){
+                try {
+                    Socket s3 = new Socket(address3, 9090);
+
+                    BufferedReader input =
+                        new BufferedReader(new InputStreamReader(s3.getInputStream()));
+                    String answer = input.readLine();
+                    sum3 = Long.parseLong(answer, 10);
+                    System.out.println(sum3);
+                    bully.set_address_best_sum(address3, sum3);
+                } catch (IOException ex) {
+                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }                 
+
+
+            if(best_sum >= sum1 && best_sum >= sum2 && best_sum >= sum3){
+                bully.set_leader(myAddress, best_sum);
+            }else if(sum1 >= best_sum && sum1 >= sum2 && sum1 >= sum3){
+                bully.set_leader(address1, sum1);
+            }else if(sum2 >= best_sum && sum2 > sum1 && sum2 >= sum3){
+                bully.set_leader(address2, sum2);
+            }else{
+                bully.set_leader(address3, sum3);                    
+            }
+
+
+
+            obj = parser.parse(new FileReader(
+                    "requerimientos.json"));
+            JSONObject req = (JSONObject) obj;
+
+            JSONArray requerimientos;
+            requerimientos = (JSONArray) personal.get("requerimientos");
+            String charge;
+            Long charge_id;
+
+
+            if(bully.get_leader_address() == null ? myAddress == null : bully.get_leader_address().equals(myAddress)){
+                ServerSocket coordinador = new ServerSocket(9091);
+                Socket socketCoordinador = coordinador.accept();
+
+                Thread coordinadorThread = new CoordinadorHandler(socketCoordinador, address1, address2, address3); 
+                coordinadorThread.start();
+            }else{
+                ServerSocket maquina = new ServerSocket(9092);
+                Socket socketMaquina = maquina.accept();                    
+                Thread maquinaThread = new MaquinaHandler(socketMaquina); 
+            }
+
+            for (int i = 0; i < requerimientos.size(); i++){
+                single_json = (JSONObject) requerimientos.get(i);
+                charge = (String)single_json.get("cargo");
+                charge_id = (Long)single_json.get("id");
+                if(null == charge){
+                    System.out.println("Existio un error al leer el cargo.");
+                }else switch (charge) {
+                    case "doctor":
+                        Doctor current_doc;
+                        current_doc = docMap.get(charge_id);
+                    case "enfermero":
+                        Enfermero current_enf;
+                        current_enf = enfMap.get(charge_id);
+                    case "paramedico":
+                        Paramedico current_par;
+                        current_par = parMap.get(charge_id);
+                    default:
+                        System.out.println("Existio un error al leer el cargo.");
+                }
+            }                
+
+
+
             
         
 
