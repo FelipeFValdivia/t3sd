@@ -12,6 +12,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.InetAddress;
+import java.net.NoRouteToHostException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -181,9 +182,9 @@ public class T3SD {
             
             //Se pregunta al servidor 1 cual es su mejor doctor
             while(bully.get_address_best_sum(address1) == null ){
-                
+                InetAddress InetAdd = InetAddress.getByName(address1);           
                 try{
-                    Socket s1 = new Socket(address1, 9090);
+                    Socket s1 = new Socket(InetAdd, 9090);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
                     String answer = input.readLine();
@@ -192,19 +193,18 @@ public class T3SD {
 
                     bully.set_address_best_sum(address1, sum1);
                     System.out.println(bully.get_address_best_sum(address1));                    
-                }catch (UnknownHostException e) 
+                }catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address1);
-                    System.exit(1);
                 } 
 
                 
             }   
             //Se pregunta al servidor 2 cual es su mejor doctor
             while(bully.get_address_best_sum(address2) == null ){
-                
+                InetAddress InetAdd = InetAddress.getByName(address2);           
                 try{
-                    Socket s2 = new Socket(address2, 9090);
+                    Socket s2 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s2.getInputStream()));
@@ -213,10 +213,9 @@ public class T3SD {
                     sum2 = Long.parseLong(answer, 10);
                     System.out.println(sum2);
                     bully.set_address_best_sum(address2, sum2);                    
-                }catch (UnknownHostException e) 
+                }catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address1);
-                    System.exit(1);
                 } 
 
 
@@ -224,8 +223,9 @@ public class T3SD {
 
             //Se pregunta al servidor 3 cual es su mejor doctor
             while(bully.get_address_best_sum(address3) == null ){
+                InetAddress InetAdd = InetAddress.getByName(address3);           
                 try{
-                    Socket s3 = new Socket(address3, 9090);
+                    Socket s3 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s3.getInputStream()));
@@ -234,10 +234,9 @@ public class T3SD {
                     System.out.println(sum3);
                     bully.set_address_best_sum(address3, sum3);
                 }
-                catch (UnknownHostException e) 
+                catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address3);
-                    System.exit(1);
                 } 
 
             }                 
