@@ -45,7 +45,7 @@ public class T3SD {
     public static void main(String[] args) throws FileNotFoundException {
         // TODO code application logic here
         
-        String address1, address2, address3, myAddress, miMaquina;
+        String address1, address2, address3, myAddress, miMaquina, dummy;
 //        myAddress = "dist73.inf.santiago.usm.cl";
 //        address1 = "dist74.inf.santiago.usm.cl";
 //        address2 = "dist75.inf.santiago.usm.cl";
@@ -309,6 +309,7 @@ public class T3SD {
             }                
 
 
+        dummy = sc.nextLine(); 
 
             
         
