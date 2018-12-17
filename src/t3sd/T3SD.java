@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -57,18 +58,36 @@ public class T3SD {
         address2 = sc.nextLine(); 
         address3 = sc.nextLine(); 
 
-    	Scanner rawInput = new Scanner(System.in);
-    	System.out.print("Presiona enter para comenzar");
-        final String dir = System.getProperty("user.dir");
-        System.out.println("current dir = " + dir);
         JSONParser parser = new JSONParser();
         Object obj;
         JSONObject single_json;
         String apellido, nombre;
         Long id, estudios, experiencia;
+        String nombreArchivoPersonal;
+        
+        //Se determina en que maquina estoy para leer mi archivo correspondiente de trabajadores
+        switch (myAddress) {
+            case "dist73.inf.santiago.usm.cl":
+                nombreArchivoPersonal = "personal.json";
+                break;
+            case "dist74.inf.santiago.usm.cl":
+                nombreArchivoPersonal = "personal2.json";
+                break;
+            case "dist75.inf.santiago.usm.cl":
+                nombreArchivoPersonal = "personal3.json";
+                break;
+            case "dist76.inf.santiago.usm.cl":
+                nombreArchivoPersonal = "personal4.json";
+                break;
+            default:
+                nombreArchivoPersonal = "personal.json";
+                break;
+        }
+        
         try { 
+            //Leo mi respectivo archivo de trabajadores
             obj = parser.parse(new FileReader(
-                    "personal.json"));
+                    nombreArchivoPersonal));
             JSONObject personal = (JSONObject) obj;
             
             List myDoctorList = new ArrayList();
@@ -82,6 +101,7 @@ public class T3SD {
             JSONArray doctor = (JSONArray) personal.get("Doctor");
             Doctor best_doc;
             Long best_sum = 0L;
+            //Llevo a memoria mis doctores
             for (int i = 0; i < doctor.size(); i++){
                 single_json = (JSONObject) doctor.get(i);
                 apellido = (String)single_json.get("apellido");
@@ -98,10 +118,9 @@ public class T3SD {
                 docMap.put(id, doc);
             }
             
-            System.out.println(personal);
+            //Llevo a memoria a mis enfermeros
             JSONArray enfermero;
             enfermero = (JSONArray) personal.get("enfermero");
-            System.out.println(enfermero);
             for (int i = 0; i < enfermero.size(); i++){
                 single_json = (JSONObject) enfermero.get(i);
                 apellido = (String)single_json.get("apellido");
@@ -114,6 +133,7 @@ public class T3SD {
                 enfMap.put(id, enf);
             }
             
+            //Llevo a memoria a mis enfermeros
             JSONArray paramedico = (JSONArray) personal.get("Paramedico");
             for (int i = 0; i < paramedico.size(); i++){
                 single_json = (JSONObject) paramedico.get(i);
@@ -139,52 +159,47 @@ public class T3SD {
 
             Thread t = new ServerHandler(listener, myAddress, best_sum, bully); 
             t.start();
-
             while(bully.get_address_best_sum(address1) == null ){
-                try {
-                    Socket s1 = new Socket(address1, 9090);
-
-                    BufferedReader input =
+                InetAddress inetAdd = InetAddress.getByName(address1);
+                Socket s1 = new Socket(inetAdd, 9090);
+                BufferedReader input =
                         new BufferedReader(new InputStreamReader(s1.getInputStream()));
-                    String answer = input.readLine();
-                    sum1 = Long.parseLong(answer, 10);
-                    System.out.println(sum1);
-                    bully.set_address_best_sum(address1, sum1);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                String answer = input.readLine();
+                sum1 = Long.parseLong(answer, 10);
+                System.out.println(sum1);
+
+                bully.set_address_best_sum(address1, sum1);
+                System.out.println(bully.get_address_best_sum(address1));
+
+
+                
             }                
-
-
             while(bully.get_address_best_sum(address2) == null ){
-                try {
-                    Socket s2 = new Socket(address2, 9090);
+                InetAddress inetAdd = InetAddress.getByName(address2);
+                Socket s2 = new Socket(inetAdd, 9090);
 
-                    BufferedReader input =
-                        new BufferedReader(new InputStreamReader(s2.getInputStream()));
-                    String answer = input.readLine();
-                    sum2 = Long.parseLong(answer, 10);
-                    System.out.println(sum2);
-                    bully.set_address_best_sum(address2, sum2);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                BufferedReader input =
+                    new BufferedReader(new InputStreamReader(s2.getInputStream()));
+                String answer = input.readLine();
+                System.out.println(answer);
+                sum2 = Long.parseLong(answer, 10);
+                System.out.println(sum2);
+                bully.set_address_best_sum(address2, sum2);
+
             } 
 
 
             while(bully.get_address_best_sum(address3) == null ){
-                try {
-                    Socket s3 = new Socket(address3, 9090);
+                InetAddress inetAdd = InetAddress.getByName(address3);
+                Socket s3 = new Socket(inetAdd, 9090);
 
-                    BufferedReader input =
-                        new BufferedReader(new InputStreamReader(s3.getInputStream()));
-                    String answer = input.readLine();
-                    sum3 = Long.parseLong(answer, 10);
-                    System.out.println(sum3);
-                    bully.set_address_best_sum(address3, sum3);
-                } catch (IOException ex) {
-                    Logger.getLogger(ClientHandler.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                BufferedReader input =
+                    new BufferedReader(new InputStreamReader(s3.getInputStream()));
+                String answer = input.readLine();
+                sum3 = Long.parseLong(answer, 10);
+                System.out.println(sum3);
+                bully.set_address_best_sum(address3, sum3);
+
             }                 
 
 
@@ -197,8 +212,6 @@ public class T3SD {
             }else{
                 bully.set_leader(address3, sum3);                    
             }
-
-
 
             obj = parser.parse(new FileReader(
                     "requerimientos.json"));

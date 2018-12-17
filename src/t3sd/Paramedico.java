@@ -10,19 +10,19 @@ package t3sd;
  * @author felipefvaldivia
  */
 public class Paramedico {
-    private Long id;
-    private String nombre;
-    private String apellido;
-    private Long estudios;
-    private Long experiencia;
+    private final Long id;
+    private final String nombre;
+    private final String apellido;
+    private final Long estudios;
+    private final Long experiencia;
     
     
     public Paramedico(Long id, String nombre, String apellido, Long experiencia, Long estudios){
-        id = id;
-        nombre = nombre;
-        apellido = apellido;
-        experiencia = experiencia;
-        estudios = estudios;
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.experiencia = experiencia;
+        this.estudios = estudios;
         
     }
 

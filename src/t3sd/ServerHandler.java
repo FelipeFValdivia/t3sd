@@ -38,9 +38,9 @@ public class ServerHandler extends Thread  {
         Socket socket;        
         try {
             socket = listener.accept();
-            System.out.println("estamos dentro");
             System.out.println(myAddress);
-            String sumString = best_sum.toString();
+            String sumString; 
+            sumString = best_sum.toString();
             while(true){
                 PrintWriter out;
                 try {

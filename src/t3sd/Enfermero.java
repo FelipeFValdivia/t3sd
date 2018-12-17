@@ -11,18 +11,18 @@ package t3sd;
  */
 public class Enfermero {
     
-    private Long id;
-    private String nombre;
-    private String apellido;
-    private Long experiencia;
-    private Long estudios;
+    private final Long id;
+    private final String nombre;
+    private final String apellido;
+    private final Long experiencia;
+    private final Long estudios;
     
     public Enfermero(Long id, String nombre, String apellido, Long experiencia, Long estudios){
-        id = id;
-        nombre = nombre;
-        apellido = apellido;
-        experiencia = experiencia;
-        estudios = estudios;
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.experiencia = experiencia;
+        this.estudios = estudios;
         
     }
 

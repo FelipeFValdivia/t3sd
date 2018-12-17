@@ -17,11 +17,11 @@ public class Doctor {
     private Long experiencia;
     
     public Doctor(Long id, String nombre, String apellido, Long estudios, Long experiencia){
-        id = id;
-        nombre = nombre;
-        apellido = apellido;
-        estudios = estudios;
-        experiencia = experiencia;
+        this.id = id;
+        this.nombre = nombre;
+        this.apellido = apellido;
+        this.estudios = estudios;
+        this.experiencia = experiencia;
     }
 
     Doctor() {
