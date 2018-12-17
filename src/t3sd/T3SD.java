@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.ConnectException;
 import java.net.InetAddress;
 import java.net.NoRouteToHostException;
 import java.util.ArrayList;
@@ -196,7 +197,9 @@ public class T3SD {
                 }catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address1);
-                } 
+                }catch (ConnectException e){
+                    System.err.println("Problem at ip: " + e);
+                }
 
                 
             }   
@@ -216,7 +219,10 @@ public class T3SD {
                 }catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address1);
-                } 
+                }catch (ConnectException e){
+                    System.err.println("Problem at ip: " + e);
+                }
+
 
 
             } 
@@ -237,7 +243,10 @@ public class T3SD {
                 catch (NoRouteToHostException e) 
                 {
                     System.err.println("Problem at ip: " + address3);
-                } 
+                } catch (ConnectException e){
+                    System.err.println("Problem at ip: " + e);
+                }
+
 
             }                 
 
