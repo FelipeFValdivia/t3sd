@@ -46,6 +46,7 @@ public class T3SD {
         // TODO code application logic here
         
         String address1, address2, address3, myAddress, miMaquina, dummy;
+        int myPort, port1, port2, port3;
 //        myAddress = "dist73.inf.santiago.usm.cl";
 //        address1 = "dist74.inf.santiago.usm.cl";
 //        address2 = "dist75.inf.santiago.usm.cl";
@@ -73,34 +74,55 @@ public class T3SD {
                 address1 = ip2;
                 address2 = ip3;
                 address3 = ip4;
+                myPort = 9090;
+                port1 = 9091;
+                port2 = 9092;
+                port3 = 9093;
+                
                 nombreArchivoPersonal = "personal.json";
                 break;
             case "74":
                 myAddress = ip2;
                 address1 = ip1;
                 address2 = ip3;
-                address3 = ip4;                
+                address3 = ip4;
+                myPort = 9091;
+                port1 = 9090;
+                port2 = 9092;
+                port3 = 9093;
                 nombreArchivoPersonal = "personal2.json";
                 break;
             case "75":
                 myAddress = ip3;
                 address1 = ip1;
                 address2 = ip2;
-                address3 = ip4;                
+                address3 = ip4;    
+                myPort = 9092;
+                port1 = 9090;
+                port2 = 9091;
+                port3 = 9093;                
                 nombreArchivoPersonal = "personal3.json";
                 break;
             case "76":
                 myAddress = ip4;
                 address1 = ip1;
                 address2 = ip2;
-                address3 = ip3;                
+                address3 = ip3;  
+                myPort = 9093;
+                port1 = 9090;
+                port2 = 9091;
+                port3 = 9092;                
                 nombreArchivoPersonal = "personal4.json";
                 break;
             default:
                 myAddress = ip1;
                 address1 = ip2;
                 address2 = ip3;
-                address3 = ip4;                
+                address3 = ip4;
+                myPort = 9090;
+                port1 = 9091;
+                port2 = 9092;
+                port3 = 9093;                
                 nombreArchivoPersonal = "personal.json";
                 break;
         }
@@ -169,7 +191,7 @@ public class T3SD {
             }
    
             InetAddress myInetAdd = InetAddress.getByName(myAddress);           
-            ServerSocket listener = new ServerSocket(9090, 10, myInetAdd);
+            ServerSocket listener = new ServerSocket(myPort, 10, myInetAdd);
             Bully bully = new Bully(best_sum, -1L, "", myAddress, address1, address2, address3);
             //Se busca al primer coordinador
             Long sum1 = 0L;
@@ -186,7 +208,7 @@ public class T3SD {
                 InetAddress InetAdd = InetAddress.getByName(address1);           
                 try{
                     System.out.println("Extrayendo información desde " + address1);
-                    Socket s1 = new Socket(InetAdd, 9090);
+                    Socket s1 = new Socket(InetAdd, port1);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
                     String answer = input.readLine();
@@ -208,7 +230,7 @@ public class T3SD {
                 InetAddress InetAdd = InetAddress.getByName(address2);           
                 try{
                     System.out.println("Extrayendo información desde " + address2);
-                    Socket s2 = new Socket(InetAdd, 9090);
+                    Socket s2 = new Socket(InetAdd, port2);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s2.getInputStream()));
@@ -233,7 +255,7 @@ public class T3SD {
                 InetAddress InetAdd = InetAddress.getByName(address3);           
                 try{
                     System.out.println("Extrayendo información desde " + address3);
-                    Socket s3 = new Socket(InetAdd, 9090);
+                    Socket s3 = new Socket(InetAdd, port3);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s3.getInputStream()));
