@@ -42,21 +42,16 @@ public class T3SD {
     public static void main(String[] args) throws FileNotFoundException {
         // TODO code application logic here
         
-        String address1, address2, address3, myAddress;
+        String address1, address2, address3, myAddress, miMaquina;
 //        myAddress = "dist73.inf.santiago.usm.cl";
 //        address1 = "dist74.inf.santiago.usm.cl";
 //        address2 = "dist75.inf.santiago.usm.cl";
 //        address3 = "dist76.inf.santiago.usm.cl";
 
-        System.out.println("Ingresa tu direccion:");        
+        System.out.println("Ingresa el numero de tu maquina (73,74,75,76)");        
         Scanner sc = new Scanner(System.in);
-        myAddress = sc.nextLine(); 
+        miMaquina = sc.nextLine(); 
 
-        System.out.println("Ingresa las otras tres direcciones:");
-        
-        address1 = sc.nextLine(); 
-        address2 = sc.nextLine(); 
-        address3 = sc.nextLine(); 
 
         JSONParser parser = new JSONParser();
         Object obj;
@@ -64,22 +59,45 @@ public class T3SD {
         String apellido, nombre;
         Long id, estudios, experiencia;
         String nombreArchivoPersonal;
-        
+        String ip1 = "10.6.40.213";
+        String ip2 = "10.6.40.214";
+        String ip3 = "10.6.40.215";
+        String ip4 = "10.6.40.216";
         //Se determina en que maquina estoy para leer mi archivo correspondiente de trabajadores
-        switch (myAddress) {
-            case "dist73.inf.santiago.usm.cl":
+        switch (miMaquina) {
+            case "73":
+                myAddress = ip1;
+                address1 = ip2;
+                address2 = ip3;
+                address3 = ip4;
                 nombreArchivoPersonal = "personal.json";
                 break;
-            case "dist74.inf.santiago.usm.cl":
+            case "74":
+                myAddress = ip2;
+                address1 = ip1;
+                address2 = ip3;
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal2.json";
                 break;
-            case "dist75.inf.santiago.usm.cl":
+            case "75":
+                myAddress = ip3;
+                address1 = ip1;
+                address2 = ip2;
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal3.json";
                 break;
-            case "dist76.inf.santiago.usm.cl":
+            case "76":
+                myAddress = ip4;
+                address1 = ip1;
+                address2 = ip2;
+                address3 = ip3;                
                 nombreArchivoPersonal = "personal4.json";
                 break;
             default:
+                myAddress = ip1;
+                address1 = ip2;
+                address2 = ip3;
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal.json";
                 break;
         }
@@ -147,8 +165,8 @@ public class T3SD {
                 parMap.put(id, par);
             }
    
-                        
-            ServerSocket listener = new ServerSocket(9090);
+            InetAddress myInetAdd = InetAddress.getByName(myAddress);           
+            ServerSocket listener = new ServerSocket(9090, 10, myInetAdd);
             Bully bully = new Bully(best_sum, -1L, "", myAddress, address1, address2, address3);
             //Se busca al primer coordinador
             Long sum1 = 0L;
@@ -156,9 +174,11 @@ public class T3SD {
             Long sum3 = 0L;
             
 
-
+            //Se crea una thread para poder escuchar los mensajes de los otros servidores, y poder determinar quien es el coordinador
             Thread t = new ServerHandler(listener, myAddress, best_sum, bully); 
             t.start();
+            
+            //Se pregunta al servidor 1 cual es su mejor doctor
             while(bully.get_address_best_sum(address1) == null ){
                 InetAddress inetAdd = InetAddress.getByName(address1);
                 Socket s1 = new Socket(inetAdd, 9090);
@@ -173,7 +193,8 @@ public class T3SD {
 
 
                 
-            }                
+            }   
+            //Se pregunta al servidor 2 cual es su mejor doctor
             while(bully.get_address_best_sum(address2) == null ){
                 InetAddress inetAdd = InetAddress.getByName(address2);
                 Socket s2 = new Socket(inetAdd, 9090);
@@ -188,7 +209,7 @@ public class T3SD {
 
             } 
 
-
+            //Se pregunta al servidor 3 cual es su mejor doctor
             while(bully.get_address_best_sum(address3) == null ){
                 InetAddress inetAdd = InetAddress.getByName(address3);
                 Socket s3 = new Socket(inetAdd, 9090);
@@ -202,7 +223,7 @@ public class T3SD {
 
             }                 
 
-
+            //Se determina cual es el coordinador por sus doctores
             if(best_sum >= sum1 && best_sum >= sum2 && best_sum >= sum3){
                 bully.set_leader(myAddress, best_sum);
             }else if(sum1 >= best_sum && sum1 >= sum2 && sum1 >= sum3){
@@ -222,7 +243,7 @@ public class T3SD {
             String charge;
             Long charge_id;
 
-
+            //Si este es el coordinador, se empieza a escuchar en un thread para que los otros servidores se comuniquen con el
             if(bully.get_leader_address() == null ? myAddress == null : bully.get_leader_address().equals(myAddress)){
                 ServerSocket coordinador = new ServerSocket(9091);
                 Socket socketCoordinador = coordinador.accept();
