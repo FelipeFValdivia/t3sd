@@ -1,0 +1,8 @@
+El procedimiento elegido para el funcionamiento del sistema es el 1, donde el coordinador recibe los cambios y luego los propaga a las replicas, ya que mantener consistencia es más sencillo, teniendo sólo un servidor comunicandose con el cliente y encargandose de mantener consistencia y no replicando esta entre los cuatro. Ademàs, existe un menor número de mensajes, ya que es el coordinador quien envía las actualizaciones y además interactúa con el cliente, en caso contrario, el cliente interactua con todas las máquinas y además estas deben luego actualizar el estado comunicandose con el resto.
+
+Para correr los servicios se debe utilizar el comando make en el servidor correspondiente dentro de la carpeta t3sd.
+
+Desarrolladores: 
+	Felipe Flores
+	Miguel Huichamán
+
