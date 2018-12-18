@@ -62,10 +62,8 @@ public class T3SD {
         String apellido, nombre;
         Long id, estudios, experiencia;
         String nombreArchivoPersonal;
-        //String ip1 = "10.6.40.213";
-        //String ip2 = "10.6.40.214";
-        String ip1 = "10.6.43.50";
-        String ip2 = "10.6.43.179";
+        String ip1 = "10.6.40.213";
+        String ip2 = "10.6.40.214";
         
         String ip3 = "10.6.40.215";
         String ip4 = "10.6.40.216";
