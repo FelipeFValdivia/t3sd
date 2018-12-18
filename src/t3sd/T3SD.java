@@ -42,11 +42,10 @@ public class T3SD {
      */
 
     @SuppressWarnings("empty-statement")
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException, InterruptedException {
         // TODO code application logic here
         
         String address1, address2, address3, myAddress, miMaquina, dummy;
-        int myPort, port1, port2, port3;
 //        myAddress = "dist73.inf.santiago.usm.cl";
 //        address1 = "dist74.inf.santiago.usm.cl";
 //        address2 = "dist75.inf.santiago.usm.cl";
@@ -63,8 +62,11 @@ public class T3SD {
         String apellido, nombre;
         Long id, estudios, experiencia;
         String nombreArchivoPersonal;
-        String ip1 = "10.6.40.213";
-        String ip2 = "10.6.40.214";
+        //String ip1 = "10.6.40.213";
+        //String ip2 = "10.6.40.214";
+        String ip1 = "10.6.43.50";
+        String ip2 = "10.6.43.179";
+        
         String ip3 = "10.6.40.215";
         String ip4 = "10.6.40.216";
         //Se determina en que maquina estoy para leer mi archivo correspondiente de trabajadores
@@ -74,10 +76,7 @@ public class T3SD {
                 address1 = ip2;
                 address2 = ip3;
                 address3 = ip4;
-                myPort = 9090;
-                port1 = 9090;
-                port2 = 9091;
-                port3 = 9092;
+                
                 
                 nombreArchivoPersonal = "personal.json";
                 break;
@@ -85,44 +84,28 @@ public class T3SD {
                 myAddress = ip2;
                 address1 = ip1;
                 address2 = ip3;
-                address3 = ip4;
-                myPort = 9091;
-                port1 = 9091;
-                port2 = 9092;
-                port3 = 9090;
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal2.json";
                 break;
             case "75":
                 myAddress = ip3;
                 address1 = ip1;
                 address2 = ip2;
-                address3 = ip4;    
-                myPort = 9092;
-                port1 = 9090;
-                port2 = 9092;
-                port3 = 9091;                
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal3.json";
                 break;
             case "76":
                 myAddress = ip4;
                 address1 = ip1;
                 address2 = ip2;
-                address3 = ip3;  
-                myPort = 9093;
-                port1 = 9092;
-                port2 = 9091;
-                port3 = 9090;                
+                address3 = ip3;                
                 nombreArchivoPersonal = "personal4.json";
                 break;
             default:
                 myAddress = ip1;
                 address1 = ip2;
                 address2 = ip3;
-                address3 = ip4;
-                myPort = 9090;
-                port1 = 9091;
-                port2 = 9092;
-                port3 = 9093;                
+                address3 = ip4;                
                 nombreArchivoPersonal = "personal.json";
                 break;
         }
@@ -191,6 +174,7 @@ public class T3SD {
             }
    
             InetAddress myInetAdd = InetAddress.getByName(myAddress);           
+            ServerSocket listener = new ServerSocket(9090, 10, myInetAdd);
             Bully bully = new Bully(best_sum, -1L, "", myAddress, address1, address2, address3);
             //Se busca al primer coordinador
             Long sum1 = 0L;
@@ -199,29 +183,20 @@ public class T3SD {
             
 
             //Se crea una thread para poder escuchar los mensajes de los otros servidores, y poder determinar quien es el coordinador
-            ServerSocket listener1 = new ServerSocket(9090, 10, myInetAdd);
-            Thread t1 = new ServerHandler(listener1, myAddress, best_sum, bully); 
-            t1.start();
+            Thread t = new ServerHandler(listener, myAddress, best_sum, bully); 
+            t.start();
             
-            
-            ServerSocket listener2 = new ServerSocket(9091, 10, myInetAdd);
-            Thread t2 = new ServerHandler(listener2, myAddress, best_sum, bully); 
-            t2.start();
-            
-            ServerSocket listener3 = new ServerSocket(9092, 10, myInetAdd);
-            Thread t3 = new ServerHandler(listener1, myAddress, best_sum, bully); 
-            t3.start();
-                        
-            //Se pregunt  a al servidor 1 cual es su mejor doctor
+            //Se pregunta al servidor 1 cual es su mejor doctor
             while(bully.get_address_best_sum(address1) == null ){
                 InetAddress InetAdd = InetAddress.getByName(address1);           
                 try{
                     System.out.println("Extrayendo información desde " + address1);
-                    Socket s1 = new Socket(InetAdd, port1);
+                    Socket s1 = new Socket(InetAdd, 9090);
                     BufferedReader input =
                             new BufferedReader(new InputStreamReader(s1.getInputStream()));
                     
-
+                    System.out.println(input);
+                    System.out.println(input);
                     String answer = input.readLine();
                     sum1 = Long.parseLong(answer, 10);
                     System.out.println(sum1);
@@ -241,10 +216,12 @@ public class T3SD {
                 InetAddress InetAdd = InetAddress.getByName(address2);           
                 try{
                     System.out.println("Extrayendo información desde " + address2);
-                    Socket s2 = new Socket(InetAdd, port2);
+                    Socket s2 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s2.getInputStream()));
+                    System.out.println(input);
+                    
                     String answer = input.readLine();
                     sum2 = Long.parseLong(answer, 10);
                     System.out.println(sum2);
@@ -266,7 +243,7 @@ public class T3SD {
                 InetAddress InetAdd = InetAddress.getByName(address3);           
                 try{
                     System.out.println("Extrayendo información desde " + address3);
-                    Socket s3 = new Socket(InetAdd, port3);
+                    Socket s3 = new Socket(InetAdd, 9090);
 
                     BufferedReader input =
                         new BufferedReader(new InputStreamReader(s3.getInputStream()));
@@ -341,13 +318,13 @@ public class T3SD {
 
         dummy = sc.nextLine(); 
 
-            
+        Thread.sleep(24000);
         
 
         } catch (IOException | ParseException ex) {
             Logger.getLogger(T3SD.class.getName()).log(Level.SEVERE, null, ex);
         }
-
+        
     }
 
     private static void println(JSONObject jsonObject) {
